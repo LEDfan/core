@@ -176,4 +176,15 @@ interface IConfig {
 	 * @return array of user IDs
 	 */
 	public function getUsersForUserValue($appName, $key, $value);
+
+	/**
+	 * Handles a transaction for the system config
+	 *
+	 * In order to not write the file multiple times to set multiple settings,
+	 * a transaction can be used to set/delete multiple values, before writing
+	 * the file
+	 *
+	 * @param string $mode One of 'begin', 'rollback', 'commit'
+	 */
+	public function systemConfigTransaction($mode);
 }

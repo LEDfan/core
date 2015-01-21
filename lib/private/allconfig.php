@@ -402,4 +402,22 @@ class AllConfig implements \OCP\IConfig {
 
 		return $userIDs;
 	}
+
+	/**
+	 * Handles a transaction for the system config
+	 *
+	 * In order to not write the file multiple times to set multiple settings,
+	 * a transaction can be used to set/delete multiple values, before writing
+	 * the file
+	 *
+	 * @param string $mode One of 'begin', 'rollback', 'commit'
+	 */
+	public function systemConfigTransaction($mode) {
+		switch ($mode) {
+			case 'begin':
+			case 'rollback':
+			case 'commit':
+				$this->systemConfig->transaction($mode);
+		}
+	}
 }

@@ -67,4 +67,27 @@ class OC_Config {
 	public static function deleteKey($key) {
 		self::$object->deleteKey($key);
 	}
+
+	/**
+	 * Handles a transaction for the system config
+	 *
+	 * In order to not write the file multiple times to set multiple settings,
+	 * a transaction can be used to set/delete multiple values, before writing
+	 * the file
+	 *
+	 * @param string $mode One of 'begin', 'rollback', 'commit'
+	 */
+	public static function transaction($mode) {
+		switch ($mode) {
+			case 'begin':
+				self::$object->transactionBegin();
+				break;
+			case 'rollback':
+				self::$object->transactionRollback();
+				break;
+			case 'commit':
+				self::$object->transactionCommit();
+				break;
+		}
+	}
 }
