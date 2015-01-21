@@ -50,6 +50,12 @@ class Storage extends Wrapper {
 				$result = $this->storage->unlink($path);
 			}
 			unset($this->deletedFiles[$normalized]);
+		} else {
+			// the file was already moved/copied to trash,
+			// in the case of cross-storage delete, the rename()
+			// operation will call unlink() again on the storage,
+			// so this one needs to be forwarded
+			return $this->storage->unlink($path);
 		}
 
 		return $result;
